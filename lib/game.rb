@@ -20,7 +20,7 @@ class Game
   end
 
   def current_player
-    (@board.turn_count % 2 == 0) ? @player_1 : @player_2
+    (@board.turn_count.even?) ? @player_1 : @player_2
   end
 
   def over?
@@ -30,10 +30,9 @@ class Game
   def won?
     win_combinations = WIN_COMBINATIONS
     cells=@board.cells
-    winner = win_combinations.detect do |combos|
+    win_combinations.detect do |combos|
       cells[combos[0]]==cells[combos[1]] && cells[combos[1]]==cells[combos[2]] && cells[combos[1]]!=" "
     end
-    winner
   end
 
   def draw?
@@ -41,8 +40,7 @@ class Game
   end
 
   def winner
-    return nil unless won?
-    board.cells[won?[0]]
+    board.cells[won?[0]] if won?
   end
 
   def turn

@@ -1,11 +1,11 @@
 class Board
 	attr_accessor :cells
 	def initialize
-		@cells = [" ", " ", " ", " ", " ", " ", " ", " ", " "]
+		self.reset!
 	end
 
 	def reset!
-		@cells = [" ", " ", " ", " ", " ", " ", " ", " ", " "]
+		@cells = Array.new(9, " ")
 	end
 
 	def display
@@ -27,39 +27,19 @@ class Board
 	end
 
 	def full?
-		if cells.any? {|cell| cell.strip.empty?}
-			false
-		else
-			true
-		end
+		cells.all? {|cell| cell.strip != ""}
 	end
 
 	def turn_count
-		count = 0
-		cells.each do |cell|
-			unless cell.strip.empty?
-				count += 1
-			end
-		end
-		count
+		cells.count {|cell| !cell.strip.empty?}
 	end
 
 	def taken?(input)
-		if cells[input.to_i - 1].strip.empty?
-			false
-		else
-			true
-		end
+		!cells[input.to_i - 1].strip.empty?
 	end
 
 	def valid_move?(input)
-		if taken?(input)
-			false
-		elsif (1..9).include?(input.to_i)
-			true
-		else
-			false
-		end
+		!taken?(input) && (1..9).include?(input.to_i)
 	end
 
 
